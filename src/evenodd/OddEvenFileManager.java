@@ -8,6 +8,7 @@ package evenodd;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,20 +19,24 @@ import java.io.IOException;
  */
 public class OddEvenFileManager {
 
-    public static final String DATA_PATH = "Data.txt";
-    public static final String ODD_PATH =  "OddResults.txt";
-    public static final String EVEN_PATH = "EvenResults.txt";
+    public static final String DATA_PATH = "src\\evenodd\\Data.txt";
+    public static final String ODD_PATH =  "src\\evenodd\\OddResults.txt";
+    public static final String EVEN_PATH = "src\\evenodd\\EvenResults.txt";
 
 
     @SuppressWarnings("ConvertToTryWithResources")
     
     public static void doOddEvenSplitting() throws IOException, NumberFormatException {
-
+        BufferedReader inputStream = null;
+        BufferedWriter oddWriter = null, evenWriter = null;
     // Reading file, check for even or odd and print into separate file for even and odd
-        BufferedReader inputStream = new BufferedReader(new FileReader(new File(DATA_PATH)));
-        BufferedWriter oddWriter;
-        oddWriter = new BufferedWriter(new FileWriter(new File(ODD_PATH)));
-        BufferedWriter evenWriter = new BufferedWriter(new FileWriter(new File(EVEN_PATH)));
+        try{
+            inputStream = new BufferedReader(new FileReader(new File(DATA_PATH)));
+            oddWriter = new BufferedWriter(new FileWriter(new File(ODD_PATH)));
+            evenWriter = new BufferedWriter(new FileWriter(new File(EVEN_PATH)));
+        }catch(FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
 
         @SuppressWarnings("UnusedAssignment")
         String sourceLine = null;
@@ -49,6 +54,7 @@ public class OddEvenFileManager {
                 oddWriter.newLine();
             }
         }
+        System.out.println("Numbers successfully written to file");
         inputStream.close();
         oddWriter.close();
         evenWriter.close();
